@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour {
     private float jumpTimeCounter;
 
     public bool grounded;
-    public LayerMask whatIsGround;
 
     private BoxCollider myCollider;
 
@@ -24,23 +23,23 @@ public class PlayerController : MonoBehaviour {
         myCollider = GetComponent<BoxCollider>();
 
         jumpTimeCounter = jumpTime;
+
+        myRigidBody.freezeRotation = true;
     }
 
     // Update is called once per frame
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             if (grounded)
             {
                 myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, jumpForce, myRigidBody.velocity.z);
             }
         }
-            
-        
 
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.UpArrow))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             if (grounded)
             {
@@ -50,7 +49,7 @@ public class PlayerController : MonoBehaviour {
         }
 
 
-        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0) || Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.Space) || Input.GetMouseButton(0))
         {
             if (jumpTimeCounter > 0)
             {
@@ -60,21 +59,32 @@ public class PlayerController : MonoBehaviour {
 
         }
 
-        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.UpArrow))
+        if (Input.GetKeyUp(KeyCode.Space) || Input.GetMouseButtonUp(0) )
         {
             jumpTimeCounter = 0;
         }
 
-        /*
-        if (Input.GetKeyDown(KeyCode.RightArrow))
+        
+        if (Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKey(KeyCode.RightArrow))
         {
-            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
+            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, myRigidBody.velocity.y, myRigidBody.velocity.z + moveSpeed);
         }
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+
+        if(Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKey(KeyCode.LeftArrow))
         {
-            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, myRigidBody.velocity.y, myRigidBody.velocity.z);
+            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x, myRigidBody.velocity.y, myRigidBody.velocity.z - moveSpeed);
         }
-        */
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKey(KeyCode.UpArrow))
+        {
+            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x + moveSpeed, myRigidBody.velocity.y, myRigidBody.velocity.z - moveSpeed);
+        }
+
+        if (Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKey(KeyCode.DownArrow))
+        {
+            myRigidBody.velocity = new Vector3(myRigidBody.velocity.x - moveSpeed, myRigidBody.velocity.y, myRigidBody.velocity.z - moveSpeed);
+        }
+
     }
 
     void OnCollisionEnter(Collision col)
